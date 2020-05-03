@@ -1,0 +1,131 @@
+$blue: #04aee6;
+$dark-blue: #049dcf;
+$white: #ffffff;
+$yellow: #fccc12;
+$purple: #7d1fb0;
+
+
+@font-face {
+  font-style: normal;
+  font-weight: normal;
+  font-family: "CirceRegular";
+  src: local("Circe-Regular"), url ("../fonts/Circe-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-style: normal;
+  font-weight: normal;
+  font-family: "Circe-Bold";
+  src: url("../fonts/Circe-Bold.eot");
+  src: local("Circe"), url ("../fonts/Circe-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-style: normal;
+  font-weight: normal;
+  font-family: "EuropeExt";
+  src: local("EuropeExt"), url("../fonts/europeext-bold.woff") format("woff");
+}
+
+@media screen and (max-width: 1920px) {
+  //HD
+  html {
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  //desktop
+  html {
+    font-size: 90%;
+  }
+}
+
+/*@media screen and (max-width: 1200px) { //desktop_2
+	html {
+		font-size: 80%;
+	}
+}*/
+
+@media screen and (max-width: 992px) {
+  //laptop
+  html {
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  //tablet
+  html {
+    font-size: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  //phone
+  html {
+    font-size: 85%;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  //small_phone
+  html {
+    font-size: 75%;
+  }
+}
+
+//МЕДИАЗАПРОСЫ
+
+$breakpoints: (
+  "small_phone":   366px,
+  "phone":     481px,
+  "tablet":     769px,
+  "laptop":     993px,
+  "desktop":     1441px,
+  "HD":       1921px
+);
+
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @if $type == max {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+// CONVERT PIXELS TO REMS
+$em-base: 16px !default;
+// eg. for a relational value of 12px write rem(12)
+// Assumes $em-base is the font-size of <html>
+@function rem($pxval) {
+  $base: $em-base;
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1rem;
+}
+
+// CONVERT PIXELS TO EMS
+// eg. for a relational value of 12px write em(12) when the parent is 16px
+// if the parent is another value say 24px write em(12, 24)
+@function em($pxval, $base: $em-base) {
+  @if not unitless($pxval) {
+    $pxval: strip-units($pxval);
+  }
+  @if not unitless($base) {
+    $base: strip-units($base);
+  }
+  @return ($pxval / $base) * 1em;
+}
+
+@function strip-units($value) {
+  @return ($value / ($value * 0 + 1));
+}
